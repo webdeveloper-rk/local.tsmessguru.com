@@ -1,0 +1,7 @@
+<section class="content noprint">
+<div  >
+            
+            <!-- /.box-header -->
+            <!-- form start -->              <div class="box-body table-responsive">					 
+				  <div class="box box-primary">            <div class="box-header with-border">              <h3 class="box-title">Circular - <b><?php echo $row->title;?> [ <?php echo strtoupper($row->section);?>] </b></h3>                            <!-- /.box-tools -->            </div>            <!-- /.box-header -->            <div class="box-body no-padding">                            <div class="table-responsive mailbox-messages">                <div style="padding:30px"> Click on download icon to download <br><br>				 <a target="_blank" href="<?php echo site_url();?>assets/uploads/circulars/<?php echo $row->document_path;?>"><img src="<?php echo site_url();?>assets/download.jpg" width="100" height="100"></a>				 				 <br><br>				 <a  class="btn btn-info pull-right" href="<?php echo site_url("school_day_report/display_circulars");?>">Go Back</a><br><br>				 				 </div>                <!-- /.table -->              </div>              <!-- /.mail-box-messages -->            </div>            <!-- /.box-body -->                      </div>                </div> </div>
+</section>

@@ -1,0 +1,163 @@
+
+@charset "utf-8";
+/* CSS Document */
+
+
+@font-face
+{
+font-family:"Brush Script MT";
+src: url('Brush Script MT.ttf'); /* IE9+ */
+}
+
+
+.ddsmoothmenu{
+	/*background of menu bar (default state)*/
+	width: 100%;
+	margin:0;
+	padding:0;
+font-family:Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight:bold;
+	border-bottom:#fff solid 2px;
+	 background: -webkit-linear-gradient(#EE4300, #C63800); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#EE4300, #C63800); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#EE4300, #C63800); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#EE4300, #C63800); /* Standard syntax */
+background-color:#C63800;
+
+	
+
+}
+
+.ddsmoothmenu ul{
+z-index:100;
+margin: 0;
+padding: 0;
+list-style-type: none;
+}
+
+/*Top level list items*/
+.ddsmoothmenu ul li{
+position: relative;
+display: inline;
+float: left;
+}
+
+/*Top level menu link items style*/
+.ddsmoothmenu ul li a{
+	display: block;
+	/*background of menu items (default state)*/
+
+
+	color: #fff;
+	border-right:#fff solid 1px;
+	text-decoration: none;
+	padding-top: 6px;
+	padding-right: 30px;
+	padding-bottom: 6px;
+	padding-left: 30px;
+}
+
+* html .ddsmoothmenu ul li a{ /*IE6 hack to get sub menu links to behave correctly*/
+display: inline-block;
+}
+
+.ddsmoothmenu ul li a:link, .ddsmoothmenu ul li a:visited{
+color:#fff;
+}
+
+.ddsmoothmenu ul li a.selected{ 
+/*CSS class that's dynamically added to the currently active menu items' LI A element*/
+
+color: #fff;
+
+    background: #084FA1; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#084FA1, #005DC8); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#084FA1, #005DC8); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#084FA1, #005DC8); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#084FA1, #005DC8); /* Standard syntax */
+
+   
+}
+
+.ddsmoothmenu ul li a:hover{
+
+ /*background of menu items during onmouseover (hover state)*/
+color: #fff;
+
+    background: #084FA1; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#084FA1, #005DC8); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#084FA1, #005DC8); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#084FA1, #005DC8); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#084FA1, #005DC8); /* Standard syntax */
+}
+	
+/*1st sub level menu*/
+.ddsmoothmenu ul li ul{
+border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+background-color:#007AD1;
+
+position: absolute;
+left: 0;
+display: none; /*collapse all sub menus to begin with*/
+visibility: hidden;
+}
+
+/*Sub level menu list items (undo style from Top level List Items)*/
+.ddsmoothmenu ul li ul li{
+display: list-item;
+float: none;
+}
+
+/*All subsequent sub menu levels vertical offset after 1st level sub menu */
+.ddsmoothmenu ul li ul li ul{
+top: 0;
+}
+
+/* Sub level menu links style */
+.ddsmoothmenu ul li ul li a{
+font-family:Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	border-bottom:#CCCCCC solid 1px;
+
+width: 250px; /*width of sub menus*/
+padding: 5px;
+margin: 0;
+
+
+
+}
+
+/* Holly Hack for IE \*/
+* html .ddsmoothmenu{height: 1%;} /*Holly Hack for IE7 and below*/
+
+
+/* ######### CSS classes applied to down and right arrow images  ######### */
+
+.downarrowclass{
+position: absolute;
+top: 12px;
+right: 7px;
+}
+
+.rightarrowclass{
+position: absolute;
+top: 6px;
+right: 5px;
+}
+
+/* ######### CSS for shadow added to sub menus  ######### */
+
+.ddshadow{ /*shadow for NON CSS3 capable browsers*/
+position: absolute;
+left: 0;
+top: 0;
+width: 0;
+height: 0;
+background: silver;
+}
+
+.toplevelshadow{ /*shadow opacity for NON CSS3 capable browsers. Doesn't work in IE*/
+opacity: 0.8;
+}

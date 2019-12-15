@@ -1,0 +1,6 @@
+Bug  opening_balance price
+price should not be zero value
+quantity should not be zero
+
+items list 
+schools list 

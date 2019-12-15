@@ -1,0 +1,7 @@
+update balance sheet 
+set 
+	closing_price=((opening_quantity * opening_price)+ (purchase_quantity*purchase_price)) - ((session_1_qty*session_1_price)+(session_2_qty*session_2_price)+(session_3_qty*session_3_price)+(session_4_qty*session_4_price)) 
+	closing_quantity=(opening_quantity+purchase_quantity) - (session_1_qty+session_2_qty+session_3_qty+session_4_qty) 
+	
+	where
+	school_id='6' and item_id='1' and entry_date='2016-08-22'

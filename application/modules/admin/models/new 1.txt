@@ -1,0 +1,4 @@
+order by entry_id desc limit 0,1
+
+select (entry_date) as edate,item_id,closing_quantity,closing_price, TRUNCATE((closing_quantity*closing_price),2) as closing_balance from balance_sheet where entry_date<'2017-08-26' and item_id='1' and school_id='3' order by entry_date desc limit 0,1
+

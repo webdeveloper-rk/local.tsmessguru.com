@@ -1,0 +1,24 @@
+
+
+insert into opening_balances(finance_year_id, school_id, account,   opening_amount)
+
+
+select 
+2 as finance_year_id,rec.school_id, rec.account,    IFNULL(ramount-pamount, 0)  as opening_amount  
+
+
+from 
+
+ 
+
+
+(select school_id, account,
+sum(receipts.amount) as ramount from receipts where   receipt_date <'2018-04-01' group by school_id ,account ) rec left join 
+
+
+(select school_id,account, sum(payments.amount) as pamount from payments  where payment_date  <'2018-04-01'  group by school_id ,account) pays
+
+on rec.school_id = pays.school_id  and rec.account = pays.account
+
+
+ 
