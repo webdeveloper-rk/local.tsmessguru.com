@@ -53,7 +53,7 @@ class Purchase_entry extends MX_Controller {
 								  `school_id` int(11) NOT NULL,
 								  `item_id` int(11) NOT NULL,
 								  `purchase_date` date NOT NULL,
-								  `quantity` int(11) NOT NULL,
+								  `quantity` decimal(10,3) NOT NULL,
 								  `purchase_price` decimal(10,2) DEFAULT NULL,
 								  PRIMARY KEY (`pid`),
 								  KEY `school_id` (`school_id`),
@@ -66,19 +66,34 @@ class Purchase_entry extends MX_Controller {
 		}
          
 	}
+	
+	
+	
+	
 	/*
 	
 	*/
 	function purchase_entryform($item_id=null)
 	{
 		
-		injection_check();				 
+		injection_check();
+		$encode_item_id = $item_id;		
 				
 		$item_id = $this->ci_jwt->jwt_web_decode($item_id);	
-		
+		$entry_date			=	$this->today_date();	
 		$school_id	=	$this->session->userdata("school_id");
 		
-		$entry_date			=	$this->today_date();	
+		
+				 $sql = "select * from balance_sheet where school_id=? and item_id=? and entry_date=?";
+			  $rs = $this->db->query($sql,array($school_id,$item_id,$entry_date));
+			   
+			  if($rs->num_rows()==0)
+			  {
+					$this->createNonExistRecord($school_id,$item_id, $entry_date); 
+					redirect('purchase_entry/purchase_entryform/'.$encode_item_id );
+			  } 
+		
+		
 		$price_data  =	$data['price_data'] =   $this->consumption_model->get_price_details($school_id,$item_id,$entry_date);
 		
 	  
@@ -93,7 +108,7 @@ class Purchase_entry extends MX_Controller {
 		$school_id	=	$this->session->userdata("school_id");
 		 $stock_entry_table = $this->common_model->get_stock_entry_table($date);
 			 
-		  $sql = "select item_id from $stock_entry_table where entry_date=? and school_id=? and item_id=? and purchase_quantity= '0.00'	";
+		 /* $sql = "select item_id from $stock_entry_table where entry_date=? and school_id=? and item_id=? and purchase_quantity= '0.00'	";
 		$rs = $this->db->query($sql,array($date ,$school_id,$item_id));
 		  $locked = $rs->num_rows();
 		//if 0 not allowed else allowed
@@ -104,7 +119,8 @@ class Purchase_entry extends MX_Controller {
 		else{
 			$allow_to_modify = true;
 		}
-		
+		*/
+		$allow_to_modify = true;//by pass single time entry to multiple times updation allowed 
 	 
 		if($this->session->userdata("operator_type")=="CT" && $this->config->item("ct_update_enabled") == true) 
 		{
@@ -114,7 +130,7 @@ class Purchase_entry extends MX_Controller {
 			if($in_time==1)
 			{
 				$allow_to_modify = true;
-			}
+			} 
 		}
 	  $stock_entry_table = $this->common_model->get_stock_entry_table($date);
 		 $school_id	=	$this->session->userdata("school_id");
@@ -128,6 +144,46 @@ class Purchase_entry extends MX_Controller {
 		
 		if($this->form_validation->run() == true && $allow_to_modify  == true && $this->input->post('action')=="submit")
 		 {
+			 
+			 $inputs_array['school_id'] =  $school_id;
+				$inputs_array['item_id'] =   $item_id;
+				$inputs_array['entry_date'] = $date;
+
+				$inputs_array['pqty'] = floatval($this->input->post('quantity') );
+				$inputs_array['pprice'] =	floatval($this->input->post('price'));
+				
+				 $bsql = "select *  from $stock_entry_table where entry_date=? and school_id=? and item_id=? 	";
+				$brs = $this->db->query($bsql,array($date ,$school_id,$item_id));
+				$brow = $brs->row();
+
+				$inputs_array['bf_qty'] = $brow->session_1_qty;
+				$inputs_array['bf_price'] = $brow->session_1_price;
+
+				$inputs_array['lu_qty'] = $brow->session_2_qty;
+				$inputs_array['lu_price'] = $brow->session_2_price;
+
+
+				$inputs_array['sn_qty'] = $brow->session_3_qty;
+				$inputs_array['sn_price'] = $brow->session_3_price;
+
+				$inputs_array['di_qty'] = $brow->session_4_qty;
+				$inputs_array['di_price'] = $brow->session_4_price;
+		
+		
+			 
+		  $updatable_entries= $this->common_model->get_updatable_entries($inputs_array);
+		  
+		  if($updatable_entries['negative_reached'] == true)
+		  {
+				send_json_result([
+                'success' =>  FALSE ,
+                'message' => '<div class="alert alert-danger">Updation failed as closing balance reaching negative value on '.$updatable_entries['negative_date'].". please check the below transactions table</div>",
+				'html_table'=>$this->generate_html_table($updatable_entries['entries_list'])
+            ] );  
+		  }
+			 
+			 
+			 
  
 			$qty 		= 	floatval($this->input->post('quantity') );
 			$school_price	=	floatval($this->input->post('price'));
@@ -170,7 +226,12 @@ class Purchase_entry extends MX_Controller {
 			
 			
 			$this->session->set_flashdata('message', '<div class="alert alert-success">Updated Successfully.</div>'); 
-			redirect('purchase_entry'); 
+				send_json_result([
+                'success' =>  TRUE ,
+                'message' => '<div class="alert alert-success">Updated Successfully</div>',
+				'html_table'=>$this->generate_html_table($updatable_entries['entries_list'])
+            ] );  
+			//redirect('purchase_entry'); 
 		 }
 		 
 		
@@ -190,7 +251,7 @@ class Purchase_entry extends MX_Controller {
 		
 				 $data["view_file"] = "purchase_form";
 		 }
-		
+		 $data["view_file"] = "purchase_form";
         echo Modules::run("template/admin", $data);
          
 	}
@@ -216,4 +277,41 @@ class Purchase_entry extends MX_Controller {
 		return $date;
 	
 	}
+	
+	private function generate_html_table($dataarray=array())
+	 {
+		$table_html = "<table class='table'><thead><tr><th>Date</th><th>Opening Quantity</th><th>Purchase Quantity</th><th>Total</th><th>Consumed Quantity</th><th>Closing Quantity </th></tr></thead><tbody>";
+		foreach($dataarray as $data)
+		{
+			$total_used = $data['session_1_qty'] + $data['session_2_qty'] + $data['session_3_qty'] + $data['session_4_qty'] ;
+			$avilable_qty = $data['opening_quantity'] + $data['purchase_quantity'];
+			
+			$table_html  .= "<tr><td>".$data['entry_date_dp']."</td><td>".$data['opening_quantity']."</td><td>".$data['purchase_quantity']."</td><td>".$avilable_qty."</td><td>".$total_used."</td><td>".number_format($data['closing_quantity'],3)."</td></tr>";
+		
+		}
+		$table_html .= "</tbody></table>";
+		return $table_html;
+	 }
+	 function createNonExistRecord($school_id,$item_id, $todate)
+	 {
+			$stock_entry_table = $this->common_model->get_stock_entry_table($todate);
+			$sql =  "select max(entry_date) as edate from  $stock_entry_table where school_id=? and item_id=? and entry_date< ?";
+			$rs = $this->db->query($sql,array($school_id,$item_id,$todate));
+			 
+			if($rs->num_rows()==0) {
+					$this->session->set_flashdata('message', '<div class="alert alert-danger">No entries Found in $stock_entry_table. please Contact Administrator.</div>');
+					redirect("purchase_consumption_bulk");
+			}
+			$bsdata = $rs->row();
+			$sql =  "select * from  $stock_entry_table where school_id=? and item_id=? and entry_date=? ";
+			$bsd_rs = $this->db->query($sql,array($school_id,$item_id,$bsdata->edate));
+			$bsd_data = $bsd_rs->row();
+			$closing_quantity = $bsd_data->closing_quantity;
+			if($closing_quantity=="" || $closing_quantity == NULL)
+					$closing_quantity = 0.00;
+			$ins_data = array('school_id'=>$school_id,'item_id'=>$item_id,'entry_date'=>$todate,'opening_quantity'=>$closing_quantity ,'closing_quantity'=>$closing_quantity );
+			$this->db->insert($stock_entry_table ,$ins_data); 
+			//echo $this->db->last_query();die;
+	 } 
+	 
 }

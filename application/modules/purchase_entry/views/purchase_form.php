@@ -3,11 +3,12 @@ $price_read_only = false;
  if($this->config->item("site_name")=="twhostels")
  {
 	
-	 $is_excempted = $this->common_model->fixed_rate_item_excemption($item_id,$school_id);
+	/* $is_excempted = $this->common_model->fixed_rate_item_excemption($item_id,$school_id);
 	 if($is_excempted == true)
 		 $price_read_only = false;
 	 else
 		$price_read_only = true;	
+	*/
  }
  ?>
 <script src="<?php echo site_url();?>js/bootbox.min.js"></script>          
@@ -61,13 +62,17 @@ if($errors !=""){
               <!-- /.box-body -->
 			 <?php if($allow_to_modify){ ?>
 			 <div class='notification-alert'>Note: please check the values carefully before submit, once submitted values can't be modified.</div>
+			 <div id="changepwdnotifier"></div>
               <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>
+			   <div id="error_div"></div>
 			 <?php } ?>
            <?php form_close(); ?>
           </div>
 		  
+
+<script src="<?php echo site_url(); ?>assets/admin/js/jquery.form.js"></script>  
 		    <script>
 		  
 		  
@@ -99,19 +104,28 @@ if($errors !=""){
 									callback: function(result){  
 									if(result){
 										
-											var dialog = bootbox.dialog({
+											/*var dialog = bootbox.dialog({
 											message: '<p class="text-center"><img src="<?php echo site_url();?>images/progress.gif"></p>',
 											closeButton: false
-											});
+											});*/
 											// do something in the background
 											//dialog.modal('hide');			
 										sec_wait = Math.floor(Math.random() * 2) + 1  ;
 											//alert(sec_wait);
-											secs = sec_wait * 1000;
+											secs =0;// sec_wait * 1000;
 										setTimeout(function(){
-											
-											
-																frm.submit();
+											var form_data = $("#myform").serialize();
+											$("#changepwdnotifier").html("<div class='alert alert-warning'><h3>Updating please wait...</h3></div>");
+                 $("#error_div").html('');
+				 
+																															$.ajax({
+																						url : '<?php  echo current_url();?>',
+																						type: "POST",
+																						data : form_data
+																					}).done(function(response){ //
+																						processJson(response);
+																					});
+																//frm.submit();
 																}, secs);
 										
 										
@@ -165,6 +179,42 @@ if($errors !=""){
 				  
 				  
 		  }
+		  function processJson(data) {
+
+		
+        if (data.success) {
+
+
+            $("#changepwdnotifier").html(data.message);
+            $("#error_div").html(data.html_table);
+				 
+				document.getElementById("myform").reset();
+             setTimeout(function() {
+
+
+                window.location.href = "<?php echo site_url('purchase_entry'); ?>";
+
+
+            }, 1000); 
+
+
+			 
+
+
+			
+
+
+        } else {
+
+
+            $("#changepwdnotifier").html(data.message);
+            $("#error_div").html(data.html_table);
+
+
+        }
+
+
+    }
 		  </script>
 		  
 		  
