@@ -307,20 +307,7 @@ class Consumption_entrynew  extends MX_Controller {
 
  
 			 
-			 $used_total 	= $this->db->query("select sum(
-												(session_1_qty * session_1_price)+
-												(session_2_qty * session_2_price)+
-												(session_3_qty * session_3_price)+
-												(session_4_qty * session_4_price) 
-							)as used_total from $stock_entry_table where school_id=? and entry_date=? and item_id !=?",
-							array($school_id,$date,$item_id))->row()->used_total;
-			 			
-			 $today_used_total =  $used_total + $total_price;
-			 if($today_used_total > $this->config->item("day_max_limit"))
-			 {
-				$this->session->set_flashdata('message', '<div class="alert alert-danger">Daily limit exceeding. please check with admin. </div>');
-				redirect('consumption_entrynew/consumption_entrynew/'.$item_id.'/'.$session_id); 
-			 }
+			 
 			 
 			 
 			 //Calculate avg price 
@@ -333,7 +320,22 @@ class Consumption_entrynew  extends MX_Controller {
 					$price = $kg_avg_price;
 			 }
 			 
-			  
+			  $used_total 	= $this->db->query("select sum(
+												(session_1_qty * session_1_price)+
+												(session_2_qty * session_2_price)+
+												(session_3_qty * session_3_price)+
+												(session_4_qty * session_4_price) 
+							) - sum(session_".$session_id."_qty *session_".$session_id."_price ) as used_total  
+							
+							from $stock_entry_table where school_id=? and entry_date=? and item_id !=?",
+							array($school_id,$date,$item_id))->row()->used_total;
+			 			
+			 $today_used_total =  $used_total + $total_price;
+			 if($today_used_total > $this->config->item("day_max_limit"))
+			 {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger">Daily limit exceeding. please check with admin. </div>');
+				redirect('consumption_entrynew/consumption_entryform/'.$item_id.'/'.$session_id); 
+			 }
 			//echo "starting...";
 			//die;
 			$arguments = array();
