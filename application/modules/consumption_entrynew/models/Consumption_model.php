@@ -250,7 +250,7 @@ class Consumption_model extends CI_Model {
 			 $school_id = $entry_details->school_id;
 			 $item_id= $entry_details->item_id;
 			 $entry_date =  $entry_details->entry_date; 
-			  print_a($post_array);
+			 // print_a($post_array);
 			
 			 
 			 

@@ -319,17 +319,22 @@ class Consumption_entrynew  extends MX_Controller {
 					$kg_avg_price = $total_price/$total_quantity;
 					$price = $kg_avg_price;
 			 }
-			 
+			 //- sum(session_".$session_id."_qty *session_".$session_id."_price ) as used_total 
 			  $used_total 	= $this->db->query("select sum(
 												(session_1_qty * session_1_price)+
 												(session_2_qty * session_2_price)+
 												(session_3_qty * session_3_price)+
 												(session_4_qty * session_4_price) 
-							) - sum(session_".$session_id."_qty *session_".$session_id."_price ) as used_total  
-							
-							from $stock_entry_table where school_id=? and entry_date=? and item_id !=?",
-							array($school_id,$date,$item_id))->row()->used_total;
+							) as used_total  from $stock_entry_table where school_id=? and entry_date=? ",
+							array($school_id,$date))->row()->used_total;
 			 			
+						
+				 $exclude_current_item_total 	= $this->db->query("select sum(session_".$session_id."_qty *session_".$session_id."_price ) as exclude_current_item_total
+						from $stock_entry_table where school_id=? and entry_date=? and item_id=? ",
+							array($school_id,$date,$item_id))->row()->exclude_current_item_total;		
+				
+			$used_total 	= $used_total - $exclude_current_item_total;
+			
 			 $today_used_total =  $used_total + $total_price;
 			 if($today_used_total > $this->config->item("day_max_limit"))
 			 {
@@ -486,7 +491,7 @@ class Consumption_entrynew  extends MX_Controller {
 		$school_id = $this->session->userdata("school_id");
 		$entry_date = '2018-04-01';
 		$this->common_model->update_entries($school_id,$item_id,$entry_date);
-		redirect('consumption_entrynew/Consumption_entryform/'.$item_id.'/'.$session_id);
+		redirect('consumption_entrynew/consumption_entryform/'.$item_id.'/'.$session_id);
 	}
 	
 	private function get_price_details($item_id,$return_avilable_list  = false,$qty)
