@@ -1,1 +1,25 @@
-/* Add here all your CSS customizations */
+.navbar-default{border-bottom:5px solid #f4a024;background:#294a70 none;border-radius:0;box-shadow:none;}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{background:#f4a024;color:#fff;box-shadow:none;}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus{background:#f4a024;color:#fff;box-shadow:none;}
+.navbar-default .navbar-nav > li > a{color:#ffffff;}
+.navbar-brand, .navbar-nav > li > a{text-shadow:none;}
+.navbar-default .navbar-toggle{border-color:#f4a024;}
+.navbar-default .navbar-toggle .icon-bar{background-color:#fff;}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{background-color:transparent;}
+.navbar-default .navbar-collapse, .navbar-default .navbar-form{border-color:transparent;}
+.navbar-default .navbar-nav > .open > a{color:#fff;background:#f4a024 none;box-shadow:none;}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{color:#fff;background:#f4a024 none;box-shadow:none;border-right:1px solid #fff;}
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus{background-color:#eee;border-color:transparent;}
+.navbar-nav > li > a{line-height:22px;}
+.navbar-nav > li > .dropdown-menu{background:#294a70 none;}
+.dropdown-menu{padding:0 0;border:0;}
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{background:#f4a024 none;color:#fff;}
+.navbar-collapse{border-color:transparent;}
+.list-group-item:first-child{border-top-left-radius:0;border-top-right-radius:0;}
+.list-group-item:last-child{margin-bottom:0;border-bottom-right-radius:0;border-bottom-left-radius:0;}
+.list-group-item:nth-child(odd), .arrow-list li:nth-child(odd){background-color:#fafafa;border-bottom:thin solid #ccc;}
+.list-group-item:nth-child(even), .arrow-list li:nth-child(odd){background-color:#e6e0e5;border-bottom:thin solid #ccc;}
+ul .list-group > li:hover a .list-group-item{background-color:#f4a024;color:#fff;}
+.list-group-item a{text-decoration:none;color:#515151;}
+.list-group-item a:hover{text-decoration:none;color:#7b7b7b;}
+.list-group-item{padding:10px 15px;}

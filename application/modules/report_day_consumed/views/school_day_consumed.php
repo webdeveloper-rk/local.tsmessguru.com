@@ -90,11 +90,11 @@
                   <div  >
                      
 					 <table class="table table-bordered table-striped dataTable no-footer ">
-					 <tr ><td class='bold'>&nbsp;</td><td class='bold'>Category 1(upto 7th) </td><td class='bold'>Category 2(8,9,10) </td><td class='bold'>Category 3(Intermediate and above) </td><td class='bold'>Total</td></tr>
+					 <tr ><td class='bold'>&nbsp;</td><td class='bold'>Category 1(upto 7th) </td>					 <td class='bold'>Category 2(8,9,10) </td>					 <td class='bold'>Category 3(Intermediate and above) </td>					 <td class='bold'>Extra Category (Tenth & Intermediate 20 RS) </td> 					 <td class='bold'>Total</td></tr>
 					 
-					 <tr  ><td class='bold'>Per Day Price</td><td><?php echo $student_prices['gp_5_7']; ?> / <?php echo $days_count;?> = <?php echo $group_1_perday_price;?></td><td><?php echo $student_prices['gp_8_10']; ?> / <?php echo $days_count;?> = <?php echo $group_2_perday_price;?></td><td><?php echo $student_prices['gp_inter']; ?> / <?php echo $days_count;?> = <?php echo $group_3_perday_price;?></td><td></td></tr>
-					<tr ><td class='bold'>Attendance</td><td><?php echo $group_1_attendence; ?> </td><td><?php echo $group_2_attendence; ?>  </td><td><?php echo $group_3_attendence; ?> </td><td class='bold'><?php echo $attendence;?></td></tr>
-					 <tr ><td class='bold'>Price</td><td><?php echo $group_1_price; ?> </td><td><?php echo $group_2_price; ?>  </td><td><?php echo $group_3_price; ?> </td><td class='bold'><?php echo  $today_allowed_Amount;?></td></tr>
+					 <tr  ><td class='bold'>Per Day Price</td>					 <td><?php echo $student_prices['gp_5_7']; ?> / <?php echo $days_count;?> = <?php echo $group_1_perday_price;?></td>					 <td><?php echo $student_prices['gp_8_10']; ?> / <?php echo $days_count;?> = <?php echo $group_2_perday_price;?></td>					 <td><?php echo $student_prices['gp_inter']; ?> / <?php echo $days_count;?> = <?php echo $group_3_perday_price;?></td>					 <td>20 RS</td>					 <td></td>					 </tr>
+					<tr ><td class='bold'>Attendance</td>					<td><?php echo $group_1_attendence; ?> </td>					<td><?php echo $group_2_attendence; ?>  </td>					<td><?php echo $group_3_attendence; ?> </td>					<td><?php echo $extra_attendance; ?> </td>					<td class='bold'><?php echo $attendence;?></td>										</tr>
+					 <tr ><td class='bold'>Price</td>					 <td><?php echo $group_1_price; ?> </td>					 <td><?php echo $group_2_price; ?>  </td>					 <td><?php echo $group_3_price; ?> </td>					 <td><?php echo $extra_amount; ?> </td>					 <td class='bold'><?php echo  $today_allowed_Amount;?></td>					 </tr>
 					 </table>
                   </div>
                 </div>

@@ -181,7 +181,17 @@ class Report_day_consumed extends MX_Controller {
 		 
 	 
 		$today_allowed_Amount = $group_1_price + $group_2_price + $group_3_price;
+		//add extra bills for tenth and intermidate attendance 20 rs per each day 
+		$school_id = intval($this->session->userdata("school_id"));
+		$extra_amount = $this->db->query("select sum(class_10th_attendance+iner_attendance)*extra_amount as extra_amount from extra_bill where school_id=? and entry_date=?",array($school_id,$school_date))->row()->extra_amount;
+		$today_allowed_Amount = $today_allowed_Amount + $extra_amount;
+		
+		$data["extra_amount"] = $extra_amount ;
 		/**************************************/
+		
+        
+		$tenth_inter_attendance = $this->db->query("select sum(class_10th_attendance+iner_attendance)  as extra_attendance  from extra_bill  where school_id=? and entry_date=?",array($school_id,$school_date))->row()->extra_attendance;
+		$data["extra_attendance"] =  $tenth_inter_attendance;
 		
         $data["reportdate"] =  date('d-M-Y',strtotime($school_date));
         $data["input_date"] =  date('m/d/Y',strtotime($school_date));

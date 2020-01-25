@@ -25,12 +25,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $host_name = $_SERVER['HTTP_HOST'];
  
-//$config['base_url'] = 'http://www.apreisannapurna.com/';
-$config['base_url'] = 'http://local.apreisannapurna.com/';
- $config['site_name'] = 'apreis';
- $config['society_name'] = 'APREIS - ';
-$config['site_heading'] = 'ANNAPURNA';
-
+$config['base_url'] = 'http://local.tsmessguru.com/';
+ 
+$config['site_name'] = 'tstribal';
+$config['site_heading'] = 'TSMESSGURU';
+$config['society_name'] = 'TSMESSGURU';
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -58,7 +57,7 @@ $config['index_page'] = '';
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$config['uri_protocol']	= 'AUTO';
+$config['uri_protocol']	= 'REQUEST_URI';
 
 /*
 |--------------------------------------------------------------------------

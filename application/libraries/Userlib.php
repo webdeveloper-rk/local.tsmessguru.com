@@ -14,7 +14,7 @@ class Userlib {
      *
      * @access	public
      */
-    function Userlib() {
+    function __construct() {
         $this->CI = & get_instance();
 
         log_message('debug', "User Class Initialized");

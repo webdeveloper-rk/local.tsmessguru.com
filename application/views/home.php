@@ -89,7 +89,7 @@
                    
                 </div>
                 <div class="hidden-xs hidden-sm col-md-2 col-lg-2">
-                    <a href="https://tsmessguru.com/"><img src="images/logo/logo.png" width="120" border="0" class="img-responsive custom-img-align pull-right"></a>                </div>
+                    <a href="<?php echo site_url();?>"><img src="images/logo/logo.png" width="120" border="0" class="img-responsive custom-img-align pull-right"></a>                </div>
             </div>
             <!-- Notification GIF Button Ends -->
             <!-- Mobile Device Notification GIF Button Starts -->
@@ -102,7 +102,7 @@
                     <img src="images/content/CM.PNG" class="img-responsive custom-img-align cm-pro-pic" width="80">
                 </div>
                 <div class="col-xs-4 hidden-sm hidden-md hidden-lg">
-                    <a href="https://tsmessguru.com/"><img src="images/logo/logo.png" alt="Government of Telangana" width="80" border="0"></a> </div>
+                    <a href="<?php echo site_url();?>"><img src="<?php echo site_url();?>images/logo/logo.png" alt="Government of Telangana" width="80" border="0"></a> </div>
 
                 <div class="col-xs-12 col-sm-12 hidden-md hidden-lg top-strip-login text-center">
 					
@@ -244,7 +244,7 @@ Through this software we can filter dialy, weekly, monthly reports. We can also 
     <td align="center">&nbsp;</td>
   </tr>
   <tr>
-    <td align="center"><a href="https://tsmessguru.com/admin/login"><img src="images/login.png" width="180" height="48" border="0"></a></td>
+    <td align="center"><a href="<?php echo site_url();?>admin/login"><img src="images/login.png" width="180" height="48" border="0"></a></td>
   </tr>
   <tr>
     <td align="center">&nbsp;</td>

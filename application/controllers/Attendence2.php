@@ -21,10 +21,6 @@ class Attendence2 extends CI_Controller {
 	 */
 	public function index()
 	{
-		
-		
-		
-		 
 		$start_time  = $this->db->query("select CURRENT_TIMESTAMP as timenow")->row()->timenow;
 		$webservice_url_connected = true;
 		$class_actual_names = array();//kk
@@ -100,6 +96,13 @@ class Attendence2 extends CI_Controller {
 		$school_list = array();
 		$dst_list = array();
 		
+		 
+		$extra_bill_amount = 0 ;//january 17th 2020 to april 25th 2020 . add 20 RS 
+		$in_between = $this->db->query("select ? BETWEEN '2020-01-17' and '2020-04-25' as in_between",array($db_date))->row()->in_between  ;
+		if($in_between ==1)
+		{
+			$extra_bill_amount = 20 ;
+		}
 		
 		foreach($responseReturned as $school_att_obj)
 		{ 
@@ -138,17 +141,88 @@ class Attendence2 extends CI_Controller {
 			}
 			else if(in_array($class_name, $cat2_list))
 			{
-					
+				
 				$cat2_total_count  = $attendene_report[$school_id]['cat2_count'];
-				$attendene_report[$school_id]['cat2_count'] = $cat2_total_count + $school_att_obj->getPresencecount(); 
+				$class_count =  $school_att_obj->getPresencecount();
+				$attendene_report[$school_id]['cat2_count'] = $cat2_total_count + $class_count; 
+				
+				//extra bill 20 RS 
+				
+				if($in_between ==1 && $class_name=="class10")
+				{
+						
+					$tenth_attendance_count =0;
+					
+					$tenth_attendance_count = $class_count;
+					$actual_school_id = $this->db->query("select * from schools where sam_school_id=?",array($school_id))->row()->school_id;
+					$check_exists = $this->db->query("select * from extra_bill where school_id=? and entry_date=?",array($actual_school_id,$db_date));
+					$insdata = array();
+					if($check_exists->num_rows()==0)
+					{
+						//insert query
+						$insdata['entry_date'] = $db_date;
+						$insdata['school_id'] = $actual_school_id;
+						$insdata['class_10th_attendance'] = $tenth_attendance_count;
+						$insdata['extra_amount'] = $extra_bill_amount;
+						$this->db->insert("extra_bill",$insdata);
+					}else if($check_exists->num_rows()==1)
+					{
+						//update query 
+						$extra_bill_id = $check_exists->row()->extra_bill_id;
+						$insdata['entry_date'] = $db_date;
+						$insdata['school_id'] = $actual_school_id;
+						$insdata['class_10th_attendance'] = $tenth_attendance_count;
+						$insdata['extra_amount'] = $extra_bill_amount;
+						$this->db->where("extra_bill_id",$extra_bill_id);
+						$this->db->update("extra_bill",$insdata);
+					}
+					
+					
+				}
+				
 			}
 			else if(in_array($class_name, $cat3_list))
 			{
 					
 				$cat3_total_count  = $attendene_report[$school_id]['cat3_count'];
 				$attendene_report[$school_id]['cat3_count'] = $cat3_total_count + $school_att_obj->getPresencecount(); 
+				$actual_school_id = $this->db->query("select * from schools where sam_school_id=?",array($school_id))->row()->school_id;
+					if($in_between ==1  )//cat3_list all treated as intermediate 
+				{
+					$inter_attendance_count = $attendene_report[$school_id]['cat3_count'];
+					$check_exists = $this->db->query("select * from extra_bill where school_id=? and entry_date=?",array($actual_school_id,$db_date));
+					
+					$insdata = array();
+					if($check_exists->num_rows()==0)
+					{
+						//insert query
+						$insdata['entry_date'] = $db_date;
+						$insdata['school_id'] = $actual_school_id;
+						$insdata['iner_attendance'] = $inter_attendance_count;
+						$insdata['extra_amount'] = $extra_bill_amount;
+						$this->db->insert("extra_bill",$insdata);
+					}else if($check_exists->num_rows()==1)
+					{
+						//update query 
+						$extra_bill_id = $check_exists->row()->extra_bill_id;
+						$insdata['entry_date'] = $db_date;
+						$insdata['school_id'] = $actual_school_id;
+						$insdata['iner_attendance'] = $inter_attendance_count;
+						$insdata['extra_amount'] = $extra_bill_amount;
+						$this->db->where("extra_bill_id",$extra_bill_id);
+						$this->db->update("extra_bill",$insdata);
+					}
+					/*if($actual_school_id == 60){
+						print_a($school_att_obj );
+						echo $this->db->last_query(); 
+					}*/
+				}
+				
+				
+				
 			}
 			else {
+				//remaining all are colleges treated as degree colleges 
 				//echo $class_name,"<br>";
 				$cat3_total_count  = $attendene_report[$school_id]['cat3_count'];
 				$attendene_report[$school_id]['cat3_count'] = $cat3_total_count + $school_att_obj->getPresencecount(); 

@@ -1,0 +1,3 @@
+<?php
+$config['hash_code'] = "DFHICFEWELKKL4345908L23423DFSDFDSDJHI56";
+?>

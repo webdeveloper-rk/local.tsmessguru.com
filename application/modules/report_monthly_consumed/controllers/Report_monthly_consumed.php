@@ -160,6 +160,17 @@ class Report_monthly_consumed extends MX_Controller {
 			$data['attendence'] = $attendece;
 		}
 		  $allowed_amount  = $group_1_price + $group_2_price + $group_3_price;
+		  //add extra bill to allowed amount for 10th and inter attendance 20 rs per day 
+		  $tenth_inter_amount = $this->db->query("select sum(class_10th_attendance+iner_attendance)*extra_amount as tenth_inter_amount from extra_bill 
+							where school_id=? and month(`entry_date`) =? and year(`entry_date`) = ?",
+							array($school_id,$month,$year))->row()->tenth_inter_amount;
+		  
+		   $allowed_amount  =   $allowed_amount  + $tenth_inter_amount;
+			$data['tenth_inter_amount'] = $tenth_inter_amount;
+			//attendance 
+			$tenth_inter_attendance = $this->db->query("select sum(class_10th_attendance+iner_attendance)  as extra_attendance  from extra_bill 
+						where school_id=? and month(`entry_date`) =? and year(`entry_date`) = ?",array($school_id,$month,$year))->row()->extra_attendance;
+			$data["tenth_inter_attendance"] =  $tenth_inter_attendance;
 		
 		
 		$total_attendence = $attendece ;

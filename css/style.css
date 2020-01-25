@@ -10,9 +10,9 @@ Author URI: http://www.zerotheme.com/
 a,abbr,acronym,address,applet,article,aside,audio,b,blockquote,big,body,center,canvas,caption,cite,code,command,datalist,dd,del,details,dfn,dl,div,dt,em,embed,fieldset,figcaption,figure,font,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,keygen,label,legend,li,meter,nav,object,ol,output,p,pre,progress,q,s,samp,section,small,span,source,strike,strong,sub,sup,table,tbody,tfoot,thead,th,tr,tdvideo,tt,u,ul,var{background:transparent;border:0 none;font-size:100%;margin:0;padding:0;border:0;outline:0;vertical-align:top;}ol, ul {list-style:none;}blockquote, q {quotes:none;}table, table td {padding:0;border:none;border-collapse:collapse;}img {vertical-align:top;}embed {vertical-align:top;}
 article, aside, audio, canvas, command, datalist, details, embed, figcaption, figure, footer, header, hgroup, keygen, meter, nav, output, progress, section, source, video {display:block;}
 mark, rp, rt, ruby, summary, time {display:inline;}
-
+input, textarea {border:0; padding:0; margin:0; outline: 0;}
 iframe {border:0; margin:0; padding:0;}
-
+input, textarea, select {margin:0; padding:0px;}
 
 
 /* ---------------------------------------------------------------------------- */
@@ -65,7 +65,7 @@ html, body {width:100%; padding:0; margin:0;}
 body {
 	font: 14px/25px Arial, Helvetica, sans-serif;
 	font-family: 'Open Sans', sans-serif;
-	background:#0093F0;
+	background:#5D2584;
 	padding:20px;
 }
 body .wrap-body{}
@@ -208,6 +208,17 @@ footer ul.quick-link li{margin-top: 20px;}
 /* ---------------------------------------------------------------------------- */
 /* -------------------------------------Contact-------------------------------- */
 /* ---------------------------------------------------------------------------- */
+.contact h3{margin-left: 30px;}
+#contact_form {padding:0px 25px;}
+
+#ff label {cursor:pointer;margin:5px 0;display:block;font-weight:bold;}
+
+#ff input {display:block;width:100%;border-radius:4px;-webkit-border-radius:4px;-moz-border-radius:4px;color:#000;	border:1px solid #F44336;padding:13px;margin: 5px 0 25px 0;font-size: 16px;max-height: 45px;}
+
+textarea {display:block;width:100%;height:200px; border-radius:4px;-webkit-border-radius:4px;-moz-border-radius:4px;background-color:#fff; color:#000;	border:1px solid #F44336;padding:10px;margin: 5px 0 25px 0;}
+
+#ff .sendButton {cursor:pointer;background-color:#F44336;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;;width:35%;color:#ffffff;}
+#ff .sendButton:hover {opacity: 0.8;}
 
 /* ---------------------------------------------------------------------------- */
 /* -------------------------------------Button--------------------------------- */
@@ -302,7 +313,41 @@ a.button:hover{background-color: #fff;color: #222;border: 1px solid #ccc;}
 /* ---------------------------------------------------------------------------- */
 /* -------------------------------------Search--------------------------------- */
 /* ---------------------------------------------------------------------------- */
+#searchtext input {
+	background: none repeat scroll 0 0 #fff;
+	
+	color: #5e5e5e;
+	display: block;
+	font-family: arial, sans-serif;
+	font-size: inherit;
+	padding: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	font-size: 16px;
+	margin: 0;
+	height: 40px;
+}
+#form-container{max-width: 260px;text-align: left; margin: 0 auto 20px;border: 1px solid #444;display: block;}
+#searchtext {
+	overflow: hidden;
+}
 
+a.search-submit-button {
+	background: none repeat scroll 0 0 #fff;
+	border-bottom: 1px solid #eeeeee;
+	border-right: 1px solid #eeeeee;
+	border-top: 1px solid #eeeeee;
+	color: #5e5e5e !important;
+	display: block;
+	float: right;
+	font-family: inherit;
+	font-size: 20px;
+	padding: 8px 10px;
+	text-align: center;
+	width: 45px;
+	box-sizing: border-box;
+	height: 40px;
+}
 
 /* ---------------------------------------------------------------------------- */
 /* ----------------------------------Carousel---------------------------------- */
@@ -335,20 +380,4 @@ a.button:hover{background-color: #fff;color: #222;border: 1px solid #ccc;}
 /* ---------------------------------------------------------------------------- */
 .maps iframe{
     pointer-events: none;
-}
-
-.form-control{
-padding:5px;
-width:100%;
-font-size:14px;
-color:#000000;
-height:40px;
-background-color:#fff;
-margin-bottom:8px;
-border:#bbb solid 1px;
-}
-
-
-.btn-block{
-padding:10px;
 }

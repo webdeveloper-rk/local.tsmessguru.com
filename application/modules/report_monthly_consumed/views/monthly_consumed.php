@@ -154,6 +154,7 @@ echo $this->session->flashdata('message');
 					  <td class='bold'>Category 1(upto 7th)</td>
 					  <td class='bold'>Category 2(8,9,10)</td>
 					  <td class='bold'>Category 3(Intermediate and above)</td>
+					  <td class='bold'>Extra Category  (Tenth & Intermediate )</td>
 					  <td class='bold'>Grand Total</td>
 					</tr>
 					
@@ -162,6 +163,7 @@ echo $this->session->flashdata('message');
 					  <td  ><?php echo $student_prices['gp_5_7']; ?>  / <?php echo $days_count;?> = <?php echo number_format($group_1_per_day,4);?></td>
 					  <td ><?php echo $student_prices['gp_8_10']; ?>  / <?php echo $days_count;?> = <?php echo number_format($group_2_per_day,4);?></td>
 					  <td ><?php echo $student_prices['gp_inter']; ?>  / <?php echo $days_count;?> = <?php echo number_format($group_3_per_day,4);?></td>
+					  <td > 20 RS </td>
 					 
 					  <td class='bold'> </td>
 					</tr>
@@ -170,6 +172,7 @@ echo $this->session->flashdata('message');
 					  <td ><?php echo $group_1_attendence;?></td>
 					  <td ><?php echo $group_2_attendence;?></td>
 					  <td ><?php echo $group_3_attendence;?></td>
+					  <td class='bold'><?php echo $tenth_inter_attendance;?></td>
 					  <td class='bold'><?php echo $attendence;?></td>
 					</tr>
 					
@@ -178,6 +181,7 @@ echo $this->session->flashdata('message');
 					  <td ><?php echo number_format($group_1_price,4);?></td>
 					  <td ><?php echo number_format($group_2_price,4);?></td>
 					  <td ><?php echo number_format($group_3_price,4);?></td>
+					  <td ><?php echo number_format($tenth_inter_amount,2);?></td>
 					  <td class='bold'><?php echo number_format($allowed_amount,2);?></td>
 					</tr>
 				  </table>
