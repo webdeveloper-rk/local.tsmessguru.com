@@ -32,7 +32,7 @@ class Attendence2 extends CI_Controller {
 		 $cat2_list = array('class8','class9','class10');
 		 $cat3_list = array('mpc1year','mpc2year','bipc1year','bipc2year','cec1year','cec2year','hec1year','hec2year','ct1year','ct2year','aandt1year','aandt1year','aandt2year','mec1year','mec2year','mlt1year','mlt2year','cga1year','cga2year',
 							'emcetiitmpc1year','emcetiitmpc2year','emcetbipc1year','emcetbipc2year','iitmpc2year','iitmpc1year' 
-							,'neetbipc1year','neetbipc2year','neet','neetmpc1year','neetmpc2year'
+							,'neetbipc1year','neetbipc2year','neet','neetmpc1year','neetmpc2year','pstt1year','pstt2year','pht1year','pht2year','aet1year','aet2year'
 							);
 		 
 		 
@@ -234,7 +234,7 @@ class Attendence2 extends CI_Controller {
 			$attendene_report[$school_id][$class_name] =  $school_att_obj->getPresencecount();  
 		}
 		$queries_list = array();
-		// print_a($classes_list);die;
+		 // print_a($classes_list);die;
 		
 		$already_entered = array();
 	 
