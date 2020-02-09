@@ -133,7 +133,7 @@ if($errors !=""){
 						<td>Amount </td>
 					<td>Total Attendance</td>					
  
-					 <td>Allowed Amount</td>
+					 <td>Extra Amount</td>					 <td>Allowed Amount</td>
 					 <td>Consumption Amount</td>
 					 <td>Remaining Amount</td> 					 					<?php  if($this->session->userdata("is_dco") !=1 && $this->config->item("deductions_enabled") == true) { ?>					 <td>Deduction Amount</td>					 <td>DIET AMOUNT TO BE RELEASED</td> 					<?php } ?>
 					
@@ -161,7 +161,7 @@ if($errors !=""){
 					
 					
 					<td><?php echo $school_data['present_count'];?></td> 
-					<td><?php echo  number_format($school_data['total_allowed'],2);?></td>
+					<td><?php echo  number_format($school_data['extra_amount'],2);?></td>										<td><?php echo  number_format($school_data['total_allowed'],2);?></td>
 					<td><?php echo  number_format($school_data['consumed_amount'],2);?></td>
 					<td><?php echo  number_format($school_data['remaing_amount'],2);?></td>					<?php  if($this->session->userdata("is_dco") !=1 && $this->config->item("deductions_enabled") == true) {							$min_which_ever_less = min($school_data['total_allowed'],$school_data['consumed_amount']);							$ded_amt  = $deductions[ $school_data['school_code']];							$tobe_releases  = $min_which_ever_less - $ded_amt;					?>					<td><?php echo  number_format( $ded_amt,2) ;?></td>					<td><?php echo   number_format($tobe_releases ,2) ;?></td>					<?php } ?>
 					

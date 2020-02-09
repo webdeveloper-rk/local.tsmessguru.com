@@ -127,6 +127,16 @@ class Monthly_consolidated extends MX_Controller {
 					$school_prices[$stu_price->category][$stu_price->group_code] = $stu_price->amount;
 				}
 				
+				
+				
+				$extra_amounts_rs = $this->db->query("select school_id,sum(class_10th_attendance+iner_attendance)*extra_amount as extra_amount
+				from extra_bill where   entry_date between ? and last_day(?) group by school_id ",array($report_date,$report_date));
+				$extra_amounts = array();
+				foreach($extra_amounts_rs->result() as $erow)
+				{
+					$extra_amounts[$erow->school_id] = $erow->extra_amount;
+				}
+				
 				$schools_rs = $this->db->query("select * from schools where is_school=1");
 				foreach($schools_rs->result() as $school_item){
 					$report_data[$school_item->school_id]['group1_amount_month'] = $school_prices[$school_item->amount_category]['gp_5_7'] ;
@@ -148,9 +158,14 @@ class Monthly_consolidated extends MX_Controller {
 					$report_data[$school_item->school_id]['group2_allowed_amount'] =  $report_data[$school_item->school_id]['group2_att'] * $report_data[$school_item->school_id]['group2_amount_perday'];
 					$report_data[$school_item->school_id]['group3_allowed_amount'] = $report_data[$school_item->school_id]['group3_att'] * $report_data[$school_item->school_id]['group3_amount_perday'];
 					
+					
+					
+					$report_data[$school_item->school_id]['extra_amount'] = $school_extra_amount = $extra_amounts[$school_item->school_id];
 					$report_data[$school_item->school_id]['total_allowed'] = $report_data[$school_item->school_id]['group1_allowed_amount'] + 
 																					$report_data[$school_item->school_id]['group2_allowed_amount'] + 
-																					$report_data[$school_item->school_id]['group3_allowed_amount'];
+																					$report_data[$school_item->school_id]['group3_allowed_amount']
+																					+$school_extra_amount
+																					;
  
 				}
 				
@@ -223,6 +238,8 @@ class Monthly_consolidated extends MX_Controller {
 	public function attendence_consumed_report($school_attendence,$report_date_frmted,$report_date_toted,$schools_info=array())
     {
 		 
+		// print_a($school_attendence,1);
+		
 		$deductions = $school_attendence['deductions'];
 		$extra_data = $school_attendence['extra'];
 				unset($school_attendence['extra']);
@@ -294,12 +311,14 @@ class Monthly_consolidated extends MX_Controller {
 				$this->excel->getActiveSheet()->setCellValue('L3', 'Cat 3 Per Day');
 				$this->excel->getActiveSheet()->setCellValue('M3', 'Cat 3 Amount');
 				
+				$this->excel->getActiveSheet()->setCellValue('N3', 'SSC + INTER EXTRA AMOUNT');
 				
-				$this->excel->getActiveSheet()->setCellValue('N3', 'Attendence');				
 				
-				$this->excel->getActiveSheet()->setCellValue('O3', 'Allowed Amount');				
-				$this->excel->getActiveSheet()->setCellValue('P3', 'Consumption Amoun');
-				$this->excel->getActiveSheet()->setCellValue('Q3', 'Remaining Amount');
+				$this->excel->getActiveSheet()->setCellValue('O3', 'Attendence');				
+				
+				$this->excel->getActiveSheet()->setCellValue('P3', 'Allowed Amount');				
+				$this->excel->getActiveSheet()->setCellValue('Q3', 'Consumption Amount');
+				$this->excel->getActiveSheet()->setCellValue('R3', 'Remaining Amount');
 				
 				 
 					if($this->config->item("deductions_enabled") == true && $this->session->userdata("is_dco") ==0 )
@@ -351,12 +370,17 @@ class Monthly_consolidated extends MX_Controller {
 					$this->excel->getActiveSheet()->setCellValue('M'.$i, $school_data['group3_amount_month']);
 					
 					
-					$this->excel->getActiveSheet()->setCellValue('N'.$i,$school_data['present_count']);
+					$this->excel->getActiveSheet()->setCellValue('N'.$i, $school_data['extra_amount']);
 					
 					
-					$this->excel->getActiveSheet()->setCellValue('O'.$i, $school_data['total_allowed']);
-					$this->excel->getActiveSheet()->setCellValue('P'.$i,   $school_data['consumed_amount']);
-					$this->excel->getActiveSheet()->setCellValue('Q'.$i,   $school_data['remaing_amount']);
+					
+					
+					$this->excel->getActiveSheet()->setCellValue('O'.$i,$school_data['present_count']);
+					
+					
+					$this->excel->getActiveSheet()->setCellValue('P'.$i, $school_data['total_allowed']);
+					$this->excel->getActiveSheet()->setCellValue('Q'.$i,   $school_data['consumed_amount']);
+					$this->excel->getActiveSheet()->setCellValue('R'.$i,   $school_data['remaing_amount']);
 					 
 					if($this->config->item("deductions_enabled") == true && $this->session->userdata("is_dco") ==0)
 					{
