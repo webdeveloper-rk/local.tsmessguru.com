@@ -300,15 +300,15 @@ class Monthly_consolidated extends MX_Controller {
 				$this->excel->getActiveSheet()->setCellValue('D3', 'District');				
 				 
 				$this->excel->getActiveSheet()->setCellValue('E3', 'Cat 1 Attendence');
-				$this->excel->getActiveSheet()->setCellValue('F3', 'Cat 1 Per Day');
+				$this->excel->getActiveSheet()->setCellValue('F3', 'Cat 1 Per Day(Rounded)');
 				$this->excel->getActiveSheet()->setCellValue('G3', 'Cat 1 Amount');
 				
 				$this->excel->getActiveSheet()->setCellValue('H3', 'Cat 2 Attendence');
-				$this->excel->getActiveSheet()->setCellValue('I3', 'Cat 2 Per Day');
+				$this->excel->getActiveSheet()->setCellValue('I3', 'Cat 2 Per Day(Rounded)');
 				$this->excel->getActiveSheet()->setCellValue('J3', 'Cat 2 Amount');
 				
 					$this->excel->getActiveSheet()->setCellValue('K3', 'Cat 3 Attendence');
-				$this->excel->getActiveSheet()->setCellValue('L3', 'Cat 3 Per Day');
+				$this->excel->getActiveSheet()->setCellValue('L3', 'Cat 3 Per Day(Rounded)');
 				$this->excel->getActiveSheet()->setCellValue('M3', 'Cat 3 Amount');
 				
 				$this->excel->getActiveSheet()->setCellValue('N3', 'SSC + INTER EXTRA AMOUNT');
@@ -316,7 +316,7 @@ class Monthly_consolidated extends MX_Controller {
 				
 				$this->excel->getActiveSheet()->setCellValue('O3', 'Attendence');				
 				
-				$this->excel->getActiveSheet()->setCellValue('P3', 'Allowed Amount');				
+				$this->excel->getActiveSheet()->setCellValue('P3', 'Allowed Amount(Rounded)');				
 				$this->excel->getActiveSheet()->setCellValue('Q3', 'Consumption Amount');
 				$this->excel->getActiveSheet()->setCellValue('R3', 'Remaining Amount');
 				
@@ -327,7 +327,7 @@ class Monthly_consolidated extends MX_Controller {
 						$this->excel->getActiveSheet()->setCellValue('S3', 'DIET AMOUNT TO BE RELEASED');
 						$this->excel->getActiveSheet()->setCellValue('T3', 'School Type');
 					}else{
-						$this->excel->getActiveSheet()->setCellValue('R3', 'School Type');
+						$this->excel->getActiveSheet()->setCellValue('T3', 'School Type');
 					}
 				
 				
@@ -357,20 +357,20 @@ class Monthly_consolidated extends MX_Controller {
 					
 					
 					$this->excel->getActiveSheet()->setCellValue('E'.$i, $school_data['group1_att']);
-					$this->excel->getActiveSheet()->setCellValue('F'.$i, $school_data['group1_amount_perday']);
-					$this->excel->getActiveSheet()->setCellValue('G'.$i, $school_data['group1_amount_month']);
+					$this->excel->getActiveSheet()->setCellValue('F'.$i, round($school_data['group1_amount_perday'],2));
+					$this->excel->getActiveSheet()->setCellValue('G'.$i, round($school_data['group1_amount_month'],2));
 					
 					
 					$this->excel->getActiveSheet()->setCellValue('H'.$i, $school_data['group2_att']);
-					$this->excel->getActiveSheet()->setCellValue('I'.$i, $school_data['group2_amount_perday']);
-					$this->excel->getActiveSheet()->setCellValue('J'.$i, $school_data['group2_amount_month']);
+					$this->excel->getActiveSheet()->setCellValue('I'.$i, round($school_data['group2_amount_perday'],2));
+					$this->excel->getActiveSheet()->setCellValue('J'.$i, round($school_data['group2_amount_month'],2));
 					
 					$this->excel->getActiveSheet()->setCellValue('K'.$i, $school_data['group3_att']);
-					$this->excel->getActiveSheet()->setCellValue('L'.$i, $school_data['group3_amount_perday']);
-					$this->excel->getActiveSheet()->setCellValue('M'.$i, $school_data['group3_amount_month']);
+					$this->excel->getActiveSheet()->setCellValue('L'.$i, round($school_data['group3_amount_perday'],2));
+					$this->excel->getActiveSheet()->setCellValue('M'.$i, round($school_data['group3_amount_month'],2));
 					
 					
-					$this->excel->getActiveSheet()->setCellValue('N'.$i, $school_data['extra_amount']);
+					$this->excel->getActiveSheet()->setCellValue('N'.$i, round($school_data['extra_amount'],2));
 					
 					
 					
@@ -378,9 +378,9 @@ class Monthly_consolidated extends MX_Controller {
 					$this->excel->getActiveSheet()->setCellValue('O'.$i,$school_data['present_count']);
 					
 					
-					$this->excel->getActiveSheet()->setCellValue('P'.$i, $school_data['total_allowed']);
-					$this->excel->getActiveSheet()->setCellValue('Q'.$i,   $school_data['consumed_amount']);
-					$this->excel->getActiveSheet()->setCellValue('R'.$i,   $school_data['remaing_amount']);
+					$this->excel->getActiveSheet()->setCellValue('P'.$i, round($school_data['total_allowed'],2));
+					$this->excel->getActiveSheet()->setCellValue('Q'.$i,   round($school_data['consumed_amount'],2));
+					$this->excel->getActiveSheet()->setCellValue('R'.$i,   round($school_data['remaing_amount'],2));
 					 
 					if($this->config->item("deductions_enabled") == true && $this->session->userdata("is_dco") ==0)
 					{
@@ -396,7 +396,7 @@ class Monthly_consolidated extends MX_Controller {
 						$this->excel->getActiveSheet()->setCellValue('T'.$i,  $school_code['school_type']);
 					}
 					else{
-						$this->excel->getActiveSheet()->setCellValue('R'.$i,  $school_code['school_type']);
+						$this->excel->getActiveSheet()->setCellValue('T'.$i,  $school_code['school_type']);
 					}
 					
 					
