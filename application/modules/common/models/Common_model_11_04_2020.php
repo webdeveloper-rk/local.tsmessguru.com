@@ -38,12 +38,16 @@ class Common_model extends CI_Model {
 		$return_data  = array();
 		$negative_reached = false;
 		$negative_date = NULL;
-		$opening_balance = NULL;
+		$opening_balance = 0.000;
+		 $closing_quantity = 0.000;
 		$entries_list  = array();
 		$entries_rs = $this->db->query("select *,date_format(entry_date,'%d-%M-%Y') as entry_date_dp  from balance_sheet where school_id=? and item_id=? and entry_date >= ? order by entry_date asc ",array($school_id,$item_id,$entry_date));
+		
+		 //echo $this->db->last_query();
 		foreach($entries_rs->result() as $erow)
 		{
-			 
+			 $used_qty = 0;
+			 $total_qty  = 0;
 			if($erow->entry_date == $entry_date)
 			{
 				 $opening_balance =  $entries_list[$erow->entry_date]['opening_quantity'] =	$erow->opening_quantity;
@@ -86,10 +90,36 @@ class Common_model extends CI_Model {
 				$entries_list[$erow->entry_date]['session_4_price']  = $erow->session_4_price   ;
 			} 
 			 $entries_list[$erow->entry_date]['entry_date_dp']  = $erow->entry_date_dp   ;
+			 $total_qty  = 0;
+			 $used_qty = 0;
 			 
 			 $total_qty  =  $entries_list[$erow->entry_date]['opening_quantity'] + $entries_list[$erow->entry_date]['purchase_quantity'];
-			 $used_qty = $entries_list[$erow->entry_date]['session_1_qty'] + $entries_list[$erow->entry_date]['session_2_qty'] +$entries_list[$erow->entry_date]['session_3_qty'] +$entries_list[$erow->entry_date]['session_4_qty'] ;
-			 $closing_quantity =  $total_qty - $used_qty;
+			// $used_qty = $entries_list[$erow->entry_date]['session_1_qty'] + $entries_list[$erow->entry_date]['session_2_qty'] +$entries_list[$erow->entry_date]['session_3_qty'] +$entries_list[$erow->entry_date]['session_4_qty'] ;
+			 $used_qty = $erow->session_1_qty+ $erow->session_2_qty + $erow->session_3_qty +$erow->session_4_qty;
+			 
+			 $entries_list[$erow->entry_date]['used_qty']  = $used_qty   ;
+			 $entries_list[$erow->entry_date]['total_qty']  = $total_qty   ;
+			 
+			 
+			 $total_qty = (float)$total_qty;
+			 $used_qty = (float)$used_qty;
+			 
+			 
+
+
+
+			 //$closing_quantity =    $total_qty  -  $used_qty ;
+			 $closing_quantity =   bcsub($total_qty, $used_qty, 3);
+			/* if($erow->entry_date=="2020-03-17")
+			 {			 echo gettype($total_qty)."******"; 
+						echo gettype($used_qty)."*********\n"; 
+				 echo $total_qty," -- -" ,$used_qty;
+				 echo "--------****",$closing_quantity ; 
+				 
+				 echo ":::::",bcsub($total_qty, $used_qty, 3);
+				 
+			 }*/
+			 
 			 $entries_list[$erow->entry_date]['closing_quantity']  = $closing_quantity   ;
 			 
 			 if($closing_quantity<0){			 
@@ -100,9 +130,11 @@ class Common_model extends CI_Model {
 			 }
 			 $opening_balance  = $closing_quantity; 
 		}
+		
 		$return_data['negative_date'] = $negative_date;
 		$return_data['negative_reached'] = $negative_reached;
 		$return_data['entries_list'] = $entries_list;
+		// print_a($return_data,1);
 		return $return_data;
 		
 	 
@@ -126,7 +158,7 @@ class Common_model extends CI_Model {
 		$arr_list = array();
 		foreach($rs->result() as $row)
 		{
-		 $arr_list[] =  "update balance_sheet set opening_quantity='".$row->opening_balance."' ,  
+		 $arr_list[] =  "update balance_sheet set opening_quantity='".$row->opening_balance."' , opening_price='0',
 					closing_quantity='".$row->closing_balance."',closing_price='0'
 						where   entry_id='".$row->entry_id."' ";
 		}
