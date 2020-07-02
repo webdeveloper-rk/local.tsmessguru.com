@@ -49,9 +49,9 @@ class Manage extends MX_Controller {
 			$crud->set_subject('Items');
 			//$crud->unset_add();
             $crud->unset_delete();
-			$crud->columns(array('telugu_name','item_name','item_code','item_type','min_price','max_price'));
-			$crud->add_fields(array('telugu_name','item_name','item_code','item_type','min_price','max_price','status'));
-			$crud->edit_fields(array('telugu_name','item_name','item_code','item_type','min_price','max_price','status'));
+			$crud->columns(array('telugu_name','item_name','item_code','item_type','min_price','max_price','vendor_category'));
+			$crud->add_fields(array('telugu_name','item_name','item_code','item_type','min_price','max_price','vendor_category','status'));
+			$crud->edit_fields(array('telugu_name','item_name','item_code','item_type','min_price','max_price','vendor_category','status'));
 			$crud->required_fields(array('telugu_name','item_name','item_type'));
 			$crud->callback_after_insert(array($this, 'update_balancesheet_entries'));
 			$crud->unique_fields(array('telugu_name','item_name' ));
