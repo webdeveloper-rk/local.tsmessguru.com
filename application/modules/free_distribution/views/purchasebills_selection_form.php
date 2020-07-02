@@ -81,7 +81,7 @@ echo $this->session->flashdata("message");
 						<option value="">Select Day</option>
 						<?php 
 							$today_day  = date('d');
-							for($i=9;$i<=$today_day;$i++)
+							for($i=1;$i<=30;$i++)
 							{
 								?><option value="<?php echo $i;?>"><?php echo $i;?></option><?php
 							}
@@ -90,6 +90,7 @@ echo $this->session->flashdata("message");
 						<select name="month" required style="height:30px">
 						<option value="">Select Month</option>
 						<option value="04" selected >April</option>
+						<option value="05" selected >May</option>
 						 
 						</select>
 						<select name="year" required style="height:30px">
@@ -135,7 +136,7 @@ echo $this->session->flashdata("message");
   </script>
   <a href="javascript:void(0)" onclick="window.print()" class="btn btn-info pull-right noprint no-print" >Print</a>
   <table class="table table-bordered table-striped  "  >
-	<tr class='bold'><td align="center">APSWRSCHOOL,<?php echo $this->session->userdata("user_name"); ?></td></tr>
+	<tr class='bold'><td align="center">TTWREIS SCHOOL,<?php echo $this->session->userdata("user_name"); ?></td></tr>
 	<tr class='bold'><td align="center"><b>FREE Distribution</b></span></td></tr>
 	<tr>
 		<td>

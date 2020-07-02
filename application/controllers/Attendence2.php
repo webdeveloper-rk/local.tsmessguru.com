@@ -101,7 +101,7 @@ class Attendence2 extends CI_Controller {
 		
 		 
 		$extra_bill_amount = 0 ;//january 17th 2020 to april 25th 2020 . add 20 RS 
-		$in_between = $this->db->query("select ? BETWEEN '2020-01-17' and '2020-04-25' as in_between",array($db_date))->row()->in_between  ;
+		$in_between = $this->db->query("select ? BETWEEN '2020-01-17' and '2020-06-30' as in_between",array($db_date))->row()->in_between  ;
 		if($in_between ==1)
 		{
 			$extra_bill_amount = 20 ;

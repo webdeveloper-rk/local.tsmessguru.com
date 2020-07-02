@@ -1,0 +1,7 @@
+select 1 as finance_year_id,	school_id,	account,	opening_amount from receipts group by school_id,account where head_code having '1000'
+
+
+
+
+insert into opening_balances(finance_year_id, school_id, account,   opening_amount)
+select 1 as finance_year_id, school_id, account, amount opening_amount from receipts where `head_code` = '1000' group by school_id,account

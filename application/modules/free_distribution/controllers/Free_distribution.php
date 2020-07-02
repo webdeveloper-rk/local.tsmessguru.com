@@ -52,6 +52,14 @@ class Free_distribution extends MX_Controller {
 			  
 			  $todate =  $year."-".$month."-".$day;
 			  
+			  $check_date_in_date =$this->db->query("select ? between '2020-04-16' and CURRENT_DATE() as res",array($todate))->row()->res;
+				if($check_date_in_date==0)
+				{
+					$today_text = date('d-M-Y');
+						$this->session->set_flashdata('message', '<div class="alert alert-danger">Date Should be between 16-04-2020 and '.$today_text.' </div>');
+						 redirect('free_distribution'); 
+				}
+			  
 			  $school_id = intval($this->session->userdata('school_id'));
 			  $item_id = intval($this->input->post('item_id'));
 			  $dataarray = array('school_id'=>$school_id,'item_id'=>$item_id,'date'=>$todate);
@@ -89,6 +97,14 @@ class Free_distribution extends MX_Controller {
 		 $school_id = intval($this->session->userdata('school_id'));
 		 $item_id= $decoded_data->item_id;
 		 $date= $decoded_data->date;
+		 
+		 $check_date_in_date =$this->db->query("select ? between '2020-04-16' and CURRENT_DATE() as res",array($date))->row()->res;
+				if($check_date_in_date==0)
+				{
+					$today_text = date('d-M-Y');
+						$this->session->set_flashdata('message', '<div class="alert alert-danger">Date Should be between 16-04-2020 and '.$today_text.' </div>');
+						 redirect('free_distribution'); 
+				}
 		 
 		  //check record exists for particular date if not redirect to form 
 			  $sql = "select * from balance_sheet where school_id=? and item_id=? and entry_date=?";

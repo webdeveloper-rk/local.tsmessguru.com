@@ -1,3 +1,4 @@
+
 <?php
 $price_read_only = false;
  if($this->config->item("site_name")=="twhostels")
